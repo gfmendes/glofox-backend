@@ -3,8 +3,9 @@ package com.glofox.platform.service;
 import com.glofox.platform.dto.ClassCreationRequestDto;
 import com.glofox.platform.dto.ClassCreationResponseDto;
 import com.glofox.platform.entity.ClassEntity;
+import com.glofox.platform.exception.ClassDoesNotExistsException;
 import com.glofox.platform.exception.InvalidDateIntervalException;
-import com.glofox.platform.repository.ClassRepository;
+import com.glofox.platform.repository.ClassesRepository;
 import com.glofox.platform.service.enumeration.ClassCreationStatus;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -19,15 +20,15 @@ import org.springframework.stereotype.Service;
 @Slf4j
 public class ClassesService {
 
-  private final ClassRepository classRepository;
+  private final ClassesRepository classesRepository;
 
   public List<ClassCreationResponseDto> createClasses(ClassCreationRequestDto requestDto) {
     validateDatesRange(requestDto);
 
     final var allClasses = convertDtoIntoEntityClasses(requestDto);
     final var validClasses =
-        allClasses.stream().filter(c -> classRepository.findById(c.getId()).isEmpty()).toList();
-    classRepository.save(validClasses);
+        allClasses.stream().filter(c -> classesRepository.findById(c.getId()).isEmpty()).toList();
+    classesRepository.save(validClasses);
     return buildClassCreationResponse(allClasses, validClasses);
   }
 
@@ -40,7 +41,7 @@ public class ClassesService {
         log.info("Class {} was created.", c.getId());
       } else {
         result.add(buildResponseDto(c, ClassCreationStatus.CONFLICT));
-        log.warn("Class {} creation conflicted.", c.getId());
+        log.warn("Class {} creation conflicted and not created.", c.getId());
       }
     }
     return result;
@@ -69,5 +70,14 @@ public class ClassesService {
             ChronoUnit.DAYS.between(requestDto.getStartDate(), requestDto.getEndDate().plusDays(1)))
         .map(date -> new ClassEntity(requestDto.getName(), date, requestDto.getCapacity()))
         .toList();
+  }
+
+  ClassEntity findClass(String classId) {
+    return classesRepository
+        .findById(classId)
+        .orElseThrow(
+            () ->
+                new ClassDoesNotExistsException(
+                    String.format("Class %s does not exists.", classId)));
   }
 }

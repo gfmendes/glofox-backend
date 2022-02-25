@@ -1,4 +1,4 @@
-package com.glofox.platform.controller;
+package com.glofox.platform.integration_tests;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -7,7 +7,7 @@ import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class AbstractControllerTest {
+public class AbstractIntegrationTest {
 
   @LocalServerPort protected int port;
   @Autowired protected TestRestTemplate restTemplate;

@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ClassRepository {
+public class ClassesRepository {
   private Map<String, ClassEntity> availableClasses = new HashMap<>();
 
   public void save(List<ClassEntity> listClassEntity) {

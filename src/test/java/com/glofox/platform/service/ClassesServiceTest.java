@@ -7,7 +7,7 @@ import com.glofox.platform.dto.ClassCreationRequestDto;
 import com.glofox.platform.dto.ClassCreationResponseDto;
 import com.glofox.platform.entity.ClassEntity;
 import com.glofox.platform.exception.InvalidDateIntervalException;
-import com.glofox.platform.repository.ClassRepository;
+import com.glofox.platform.repository.ClassesRepository;
 import com.glofox.platform.service.enumeration.ClassCreationStatus;
 import java.time.LocalDate;
 import org.junit.jupiter.api.AfterEach;
@@ -18,7 +18,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class ClassesServiceTest {
 
-  @Autowired private ClassRepository repository;
+  @Autowired private ClassesRepository repository;
   @Autowired private ClassesService service;
 
   @AfterEach
