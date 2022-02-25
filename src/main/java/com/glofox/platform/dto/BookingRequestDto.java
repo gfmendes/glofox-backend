@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookingRequestDto {
 
-  @NotEmpty private String memberName;
-  @NotEmpty private String className;
+  @NotNull @NotEmpty private String memberName;
+  @NotNull @NotEmpty private String className;
   @NotNull private LocalDate date;
 }

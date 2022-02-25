@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ClassCreationRequestDto {
 
-  @NotEmpty private String name;
+  @NotNull @NotEmpty private String name;
   @NotNull private LocalDate startDate;
   @NotNull private LocalDate endDate;
   @NotNull private Integer capacity;
